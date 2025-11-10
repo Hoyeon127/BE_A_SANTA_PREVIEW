@@ -2,1117 +2,148 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Be a Santa! | 게임형 기부 데모</title>
+  <title>Be a Santa! – 인형뽑기 데모</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    :root {
-      --bg: #f4f7fb;
-      --primary: #03c75a;
-      --primary-soft: rgba(3, 199, 90, 0.12);
-      --accent: #ff7b72;
-      --accent-soft: #ffe8e5;
-      --text-main: #111827;
-      --text-muted: #6b7280;
-      --card: #ffffff;
-      --border-soft: #e5e7eb;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #e0f2fe 0, transparent 55%),
-        radial-gradient(circle at top right, #dcfce7 0, transparent 55%),
-        var(--bg);
-      color: var(--text-main);
+      background: linear-gradient(to bottom, #f5f9ff, #e9f4ff);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 1080px;
-      padding: 28px 16px 56px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 20%, #fef9c3, #f97316);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .logo-text {
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: 0.03em;
-      color: #111827;
-    }
-
-    .header-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: rgba(255, 255, 255, 0.9);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    /* ------------- SCREEN 1: CLAW ------------- */
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .hero-text h1 {
-      font-size: 36px;
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
-
-    .hero-text h1 span { color: var(--primary); }
-
-    .hero-text p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      max-width: 420px;
-      margin-bottom: 16px;
-    }
-
-    .trust-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #e5e7eb;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .stat {
-      flex: 1;
-      min-width: 130px;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
-      padding: 10px 12px;
-      box-shadow: 0 8px 20px rgba(148, 163, 184, 0.25);
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .amount-row {
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .chip {
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.14s ease-out;
-    }
-
-    .chip:hover {
-      border-color: var(--primary);
-      background: #f0fdf4;
-    }
-
-    .chip.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
-    }
-
-    /* 오른쪽 머신 카드 */
-
-    .machine-card {
-      border-radius: 28px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      box-shadow:
-        0 22px 50px rgba(148, 163, 184, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.8);
-      padding: 18px 18px 20px;
-      display: flex;
       flex-direction: column;
-      gap: 10px;
-    }
-
-    .machine-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-    }
-
-    .machine-head span:last-child {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .machine-wrapper {
-      margin-top: 4px;
-      border-radius: 22px;
-      padding: 14px;
-      background: linear-gradient(145deg, #fee2e2, #e0f2fe);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-    }
-
-    .machine {
-      border-radius: 22px;
-      overflow: hidden;
-      position: relative;
-      height: 310px;
-      background:
-        linear-gradient(#ff9eb5, #ff9eb5) top/100% 54px no-repeat,
-        linear-gradient(#ffb7c5, #ffb7c5);
-      box-shadow:
-        0 18px 40px rgba(248, 113, 113, 0.4),
-        inset 0 0 0 2px rgba(248, 250, 252, 0.4);
-    }
-
-    /* 상단 헤더 / 그리드 배경 느낌 */
-
-    .machine-top {
-      position: absolute;
-      left: 0; right: 0; top: 0;
-      height: 54px;
-      display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      gap: 20px;
     }
-
-    .machine-top::after {
-      content: "RANDOM GIFT BOX";
+    .machine {
+      position: relative;
+      width: 320px;
+      max-width: 90vw;
     }
-
-    .glass {
+    .machine-base {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .claw-area {
       position: absolute;
-      left: 14px;
-      right: 14px;
-      top: 60px;
-      bottom: 78px;
-      border-radius: 16px;
-      background: linear-gradient(160deg, #fefce8, #e0f2fe);
-      border: 2px solid rgba(254, 249, 195, 0.95);
+      left: 15%;
+      right: 15%;
+      top: 10%;
+      bottom: 40%;
       overflow: hidden;
-      box-shadow:
-        0 10px 24px rgba(248, 250, 252, 0.7),
-        inset 0 0 0 1px rgba(248, 250, 252, 0.5);
     }
-
-    .glass::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.7), transparent 45%, rgba(255, 255, 255, 0.25));
-      mix-blend-mode: screen;
-      opacity: 0.9;
-      pointer-events: none;
-    }
-
-    .toy-row {
+    .claw-cover {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 6px;
-      height: 62px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 8px;
-      padding: 0 12px 8px;
+      top: 0;
+      height: 40%;
+      background: #fff;
+      opacity: 0.92;
     }
-
-    .toy-ball {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      box-shadow: 0 8px 16px rgba(148, 163, 184, 0.7);
-    }
-
-    .toy-ball:nth-child(1) { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
-    .toy-ball:nth-child(2) { background: linear-gradient(135deg, #38bdf8, #6366f1); }
-    .toy-ball:nth-child(3) { background: linear-gradient(135deg, #fb7185, #f97316); }
-    .toy-ball:nth-child(4) { background: linear-gradient(135deg, #22c55e, #16a34a); }
-    .toy-ball:nth-child(5) { background: linear-gradient(135deg, #a855f7, #ec4899); }
-
-    .toy-box {
-      width: 34px;
-      height: 26px;
-      border-radius: 7px;
-      background: linear-gradient(135deg, #f97316, #fb7185);
-      box-shadow: 0 10px 16px rgba(148, 163, 184, 0.8);
-      position: relative;
-    }
-    .toy-box::before,
-    .toy-box::after {
-      content: "";
-      position: absolute;
-      background: rgba(255, 255, 255, 0.9);
-    }
-    .toy-box::before {
-      width: 7px;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0; bottom: 0;
-    }
-    .toy-box::after {
-      height: 6px;
-      left: 0; right: 0;
-      top: 45%;
-    }
-
-    .chute {
-      position: absolute;
-      right: 26px;
-      bottom: 78px;
-      width: 48px;
-      height: 26px;
-      border-radius: 12px 12px 6px 6px;
-      background: #111827;
-      box-shadow:
-        inset 0 0 0 2px #4b5563,
-        0 6px 14px rgba(148, 163, 184, 0.8);
-      z-index: 1;
-    }
-
-    /* 레일 + 집게 줄/몸 분리 */
-
-    .rail {
-      position: absolute;
-      top: 64px;
-      left: 22px;
-      right: 22px;
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(to right, #e5e7eb, #9ca3af, #e5e7eb);
-      box-shadow: 0 2px 5px rgba(148, 163, 184, 0.7);
-      z-index: 3;
-    }
-
     .claw {
       position: absolute;
-      top: 67px;
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 30px;
-      z-index: 3;
+      pointer-events: none;
     }
-
     .claw-line {
       width: 2px;
-      height: 58px;
+      height: 60px;
       margin: 0 auto;
       background: linear-gradient(to bottom, #e5e7eb, #9ca3af);
+      transition: height 0.6s ease-in-out;
     }
-
-    .claw-body {
-      position: relative;
-      width: 30px;
-      margin: 0 auto;
-      transform: translateY(0);
-    }
-
     .claw-head {
       width: 22px;
       height: 18px;
       border-radius: 7px;
-      background: #0f172a;
+      background: #ffffff;
       border: 2px solid #9ca3af;
       margin: 0 auto;
       position: relative;
+      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.2);
     }
-
-    .claw-arm {
+    .arm {
       position: absolute;
       width: 10px;
-      height: 26px;
+      height: 24px;
       border-radius: 999px;
       border: 2px solid #9ca3af;
       border-top: none;
-      bottom: -22px;
+      bottom: -20px;
       left: 50%;
       transform-origin: top center;
     }
-    .claw-arm.left  { transform: translateX(-50%) rotate(-26deg); }
-    .claw-arm.right { transform: translateX(-50%) rotate(26deg); }
-
-    .grabbed-toy {
-      position: absolute;
-      left: 50%;
-      top: 22px;
-      width: 30px;
-      height: 24px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #f97316, #fb7185);
-      box-shadow: 0 10px 16px rgba(148, 163, 184, 0.8);
-      transform: translateX(-50%);
-      opacity: 0;
-    }
-
-    /* 줄/몸/인형 애니메이션 */
-
+    .arm.left  { transform: translateX(-50%) rotate(-25deg); }
+    .arm.right { transform: translateX(-50%) rotate(25deg); }
     .claw.active .claw-line {
-      animation: lineExtend 1.2s ease-in-out forwards;
+      height: 120px;
     }
-
-    .claw.active .claw-body {
-      animation: bodyDrop 1.2s ease-in-out forwards;
+    .claw.active {
+      animation: claw-body 0.6s ease-in-out forwards;
     }
-
-    .grabbed-toy.moving {
-      opacity: 1;
-      animation: toyRide 1.2s ease-in-out forwards;
+    @keyframes claw-body {
+      0%   { transform: translateX(-50%) translateY(0); }
+      50%  { transform: translateX(-50%) translateY(55px); }
+      100% { transform: translateX(-50%) translateY(0); }
     }
-
-    @keyframes lineExtend {
-      0%   { height: 58px; }
-      45%  { height: 120px; }
-      100% { height: 58px; }
-    }
-
-    @keyframes bodyDrop {
-      0%   { transform: translateY(0); }
-      45%  { transform: translateY(68px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes toyRide {
-      0%   { transform: translate(-50%, 0); opacity: 0; }
-      25%  { transform: translate(-50%, 14px); opacity: 1; }
-      65%  { transform: translate(50px, -58px); }
-      100% { transform: translate(95px, -20px); opacity: 1; }
-    }
-
-    /* 하단 콘솔 */
-
-    .console {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 78px;
-      background:
-        linear-gradient(#fed7aa, #fed7aa) top/100% 70% no-repeat,
-        #fdba74;
-      border-top: 2px solid #f97316;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 18px 4px 18px;
-    }
-
-    .buttons {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-round {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: #f97316;
-      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.7);
-    }
-
-    .btn-round:nth-child(2) {
-      background: #38bdf8;
-      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.7);
-    }
-
-    .lever {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .lever-stick {
-      width: 4px;
-      height: 18px;
-      background: #6b7280;
-      margin: 0 auto;
-    }
-
-    .lever-ball {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #fee2e2, #f97316);
-      box-shadow: 0 8px 16px rgba(248, 113, 113, 0.8);
-    }
-
-    .primary-btn {
-      padding: 9px 18px;
+    #pullBtn {
+      padding: 10px 24px;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg, var(--primary), #16a34a);
-      color: white;
+      background: #03c75a;
+      color: #fff;
       font-weight: 700;
-      font-size: 13px;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.5);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-      white-space: nowrap;
+      font-size: 15px;
+      box-shadow: 0 6px 14px rgba(22, 163, 74, 0.4);
+      transition: background 0.2s ease;
     }
-
-    .primary-btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.6);
+    #pullBtn:hover {
+      background: #02b24f;
     }
-
-    .primary-btn:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: 0 8px 18px rgba(22, 163, 74, 0.5);
-    }
-
-    .primary-btn:disabled {
+    #pullBtn:disabled {
       opacity: 0.6;
       box-shadow: none;
       cursor: default;
     }
-
-    .machine-note {
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: right;
-    }
-
-    /* ------------- SCREEN 2: TREE / ROOM ------------- */
-
-    .tree-screen-wrap {
-      border-radius: 24px;
-      background: #ffffff;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
-      padding: 22px 18px 22px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-      gap: 20px;
-      align-items: center;
-    }
-
-    @media (max-width: 880px) {
-      .tree-screen-wrap {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .tree-text-block h2 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .tree-text-block h2 span { color: var(--primary); }
-
-    .tree-text-block p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      max-width: 420px;
-    }
-
-    .tag-row {
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 12px;
-    }
-
-    .tag {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: #065f46;
-    }
-
-    .tree-actions {
-      margin-top: 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .ghost-btn {
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      padding: 8px 14px;
-      font-size: 13px;
-      cursor: pointer;
-      color: #111827;
-    }
-
-    .tree-visual {
-      position: relative;
-      border-radius: 20px;
-      background:
-        linear-gradient(#bae6fd, #e0f2fe) top/100% 55% no-repeat,
-        linear-gradient(#fee2e2, #fecaca) bottom/100% 45% no-repeat;
-      padding: 18px 16px 16px;
-      overflow: hidden;
-    }
-
-    /* 창문 */
-    .window {
-      position: absolute;
-      right: 20px;
-      top: 16px;
-      width: 70px;
-      height: 60px;
-      border-radius: 10px;
-      border: 2px solid #e5e7eb;
-      background:
-        radial-gradient(circle at 10% 10%, #fef9c3, transparent 55%),
-        linear-gradient(#0f172a, #1e293b);
-      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
-      overflow: hidden;
-    }
-
-    .window::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: rgba(248, 250, 252, 0.8);
-    }
-
-    .window::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: rgba(248, 250, 252, 0.8);
-    }
-
-    .tree-svg-wrap {
-      display: flex;
-      justify-content: flex-start;
-      padding-left: 18px;
-      margin-top: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .gifts-row {
-      position: absolute;
-      left: 38px;
-      bottom: 34px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      max-width: 180px;
-      z-index: 1;
-    }
-
-    .gift-box {
-      width: 30px;
-      height: 24px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #f97316, #fb7185);
-      position: relative;
-      box-shadow: 0 10px 18px rgba(148, 163, 184, 0.8);
-    }
-
-    .gift-box.color2 { background: linear-gradient(135deg, #facc15, #f97316); }
-    .gift-box.color3 { background: linear-gradient(135deg, #38bdf8, #6366f1); }
-    .gift-box.color4 { background: linear-gradient(135deg, #22c55e, #16a34a); }
-
-    .gift-box::before,
-    .gift-box::after {
-      content: "";
-      position: absolute;
-      background: rgba(255, 255, 255, 0.9);
-    }
-    .gift-box::before {
-      width: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0; bottom: 0;
-    }
-    .gift-box::after {
-      height: 5px;
-      top: 44%;
-      left: 0; right: 0;
-    }
-
-    /* 벽난로 + 만찬 */
-
-    .fireplace,
-    .feast {
-      position: absolute;
-      bottom: 16px;
-      right: 18px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    }
-
-    .fireplace.visible,
-    .feast.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fireplace {
-      width: 80px;
-      height: 60px;
-      border-radius: 10px;
-      background: #fecaca;
-      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.9);
-      overflow: hidden;
-    }
-
-    .fireplace::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 8px;
-      height: 30px;
-      border-radius: 8px 8px 0 0;
-      background: #991b1b;
-    }
-
-    .fireplace::after {
-      content: "";
-      position: absolute;
-      left: 22px;
-      right: 22px;
-      bottom: 10px;
-      height: 18px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 0%, #fee2e2, transparent 60%),
-        linear-gradient(#f97316, #b91c1c);
-    }
-
-    .feast {
-      right: 110px;
-      width: 90px;
-      height: 52px;
-      border-radius: 10px;
-      background: #fefce8;
-      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.8);
-      overflow: visible;
-    }
-
-    .feast::before {
-      content: "";
-      position: absolute;
-      left: 6px;
-      right: 6px;
-      bottom: 4px;
-      height: 10px;
-      border-radius: 999px;
-      background: #f97316;
-    }
-
-    .feast::after {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 12px;
-      height: 18px;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 20% 0%, #fee2e2, transparent 60%),
-        radial-gradient(circle at 80% 0%, #bbf7d0, transparent 60%),
-        radial-gradient(circle at 50% 40%, #fde68a, transparent 70%);
-    }
-
-    .tree-stats {
-      margin-top: 6px;
-      font-size: 13px;
-      text-align: center;
-      color: #065f46;
-      position: relative;
-      z-index: 1;
-    }
-
-    footer {
-      margin-top: 24px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-    }
   </style>
 </head>
+
 <body>
-  <div class="page">
-    <header>
-      <div class="logo">
-        <div class="logo-mark">🎁</div>
-        <div class="logo-text">Be a Santa!</div>
-      </div>
-      <div class="header-badge">설명용 데모 · 실제 결제/기부 없음</div>
-    </header>
-
-    <!-- SCREEN 1: CLAW -->
-    <div id="screen-machine" class="screen active">
-      <section class="hero">
-        <div class="hero-text">
-          <h1>
-            인형뽑기처럼 가볍게, <br />
-            <span>하지만 분명한 기부 경험</span>
-          </h1>
-          <p>
-            Be a Santa!는 인형뽑기 UX를 이용해 “게임형 기부”를 직관적으로 체험하게 하는
-            겨울 시즌 한정 프로토타입입니다. 여기는 <strong>설명용 데모</strong>라서 실제 결제나
-            기부는 발생하지 않아요.
-          </p>
-
-          <div class="trust-row">
-            <div class="pill">✔ 1회 레버 = 선물 1개 전달된다고 가정</div>
-            <div class="pill">✔ 대학생도 부담 없는 소액 기부 시뮬레이션</div>
-            <div class="pill">✔ 누적 선물 수가 트리 밑 풍경으로 시각화</div>
-          </div>
-
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-label">오늘 내가 보낸(가정) 선물</div>
-              <div class="stat-value" id="stat-session">0개</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">이 브라우저에서 누적 선물</div>
-              <div class="stat-value" id="stat-total">0개</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">선택한 1회 금액 (가정)</div>
-              <div class="stat-value" id="stat-amount">₩1,000</div>
-            </div>
-          </div>
-
-          <div class="amount-row">
-            <button class="chip active" data-amt="1000">₩1,000</button>
-            <button class="chip" data-amt="2000">₩2,000</button>
-            <button class="chip" data-amt="3000">₩3,000</button>
-            <span>※ 실제 서비스에서는 이 금액으로 결제가 진행됩니다.</span>
-          </div>
-        </div>
-
-        <div class="machine-card">
-          <div class="machine-head">
-            <span><strong>겨울 시즌 Be a Santa! 머신</strong></span>
-            <span>오늘 참여(가정) <span id="stat-today">0명</span></span>
-          </div>
-
-          <div class="machine-wrapper">
-            <div class="machine">
-              <div class="machine-top"></div>
-
-              <div class="glass">
-                <div class="rail"></div>
-
-                <div class="claw" id="claw">
-                  <div class="claw-line"></div>
-                  <div class="claw-body">
-                    <div class="claw-head">
-                      <div class="claw-arm left"></div>
-                      <div class="claw-arm right"></div>
-                    </div>
-                    <div class="grabbed-toy" id="grabbed-toy"></div>
-                  </div>
-                </div>
-
-                <div class="toy-row" id="toy-row">
-                  <div class="toy-ball"></div>
-                  <div class="toy-ball"></div>
-                  <div class="toy-box"></div>
-                  <div class="toy-ball"></div>
-                  <div class="toy-ball"></div>
-                </div>
-
-                <div class="chute"></div>
-              </div>
-
-              <div class="console">
-                <div class="buttons">
-                  <div class="btn-round"></div>
-                  <div class="btn-round"></div>
-                </div>
-                <div class="lever">
-                  <div style="position:relative;">
-                    <div class="lever-ball"></div>
-                    <div class="lever-stick"></div>
-                  </div>
-                  <button class="primary-btn" id="pullBtn">
-                    레버 당겨보기
-                    <span>→</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="machine-note">
-            * 한 번 클릭할 때마다 선물 1개가 전달된다고 가정하고, 다음 화면에서 트리 아래 풍경이 하나씩 채워집니다.
-          </p>
-        </div>
-      </section>
-    </div>
-
-    <!-- SCREEN 2: TREE & ROOM -->
-    <div id="screen-tree" class="screen">
-      <div class="tree-screen-wrap">
-        <div class="tree-text-block">
-          <h2>
-            방금 보낸 선물이<br />
-            <span>따뜻한 거실 한 켠</span>을 채워요
-          </h2>
-          <p>
-            실제 서비스에서는 이렇게 모인 선물 개수가 실시간으로 집계되고,
-            연말에는 보육원·아동시설 등으로 전달되는 과정과 결과를 투명하게 공개하게 됩니다.
-            여기서는 <strong>게임형 인터랙션</strong>과 <strong>“창밖에서 보는 크리스마스 거실”</strong> 이미지만
-            데모로 보여줍니다.
-          </p>
-
-          <div class="tag-row">
-            <span class="tag">실제 결제 없음 · UX 컨셉 데모</span>
-            <span class="tag">선물 개수 = 참여 횟수(가정)</span>
-          </div>
-
-          <div class="tree-actions">
-            <button class="primary-btn" id="againBtn">다시 한 번 뽑아볼래요</button>
-            <button class="ghost-btn" id="stayBtn">이 화면에서 설명만 할게요</button>
-          </div>
-        </div>
-
-        <div class="tree-visual">
-          <div class="window"></div>
-
-          <div class="tree-svg-wrap">
-            <svg viewBox="0 0 200 220" width="170" aria-hidden="true">
-              <defs>
-                <linearGradient id="treeLeaf" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#22c55e"/>
-                  <stop offset="1" stop-color="#15803d"/>
-                </linearGradient>
-              </defs>
-              <polygon points="100,15 54,80 146,80" fill="url(#treeLeaf)"/>
-              <polygon points="100,55 40,130 160,130" fill="url(#treeLeaf)"/>
-              <polygon points="100,105 26,190 174,190" fill="url(#treeLeaf)"/>
-              <rect x="88" y="180" width="24" height="26" rx="3" fill="#7c2d12" />
-              <circle cx="100" cy="24" r="7" fill="#facc15" />
-              <circle cx="70" cy="92" r="5" fill="#fb7185" />
-              <circle cx="135" cy="104" r="5" fill="#38bdf8" />
-              <circle cx="84" cy="140" r="5" fill="#f97316" />
-              <circle cx="126" cy="150" r="5" fill="#a855f7" />
-            </svg>
-          </div>
-
-          <div class="gifts-row" id="gifts-row"></div>
-          <div class="fireplace" id="fireplace"></div>
-          <div class="feast" id="feast"></div>
-          <div class="tree-stats" id="tree-stats"></div>
+  <div class="machine">
+    <img src="machine.png" class="machine-base" alt="claw machine">
+    <div class="claw-area">
+      <div class="claw-cover"></div>
+      <div class="claw" id="claw">
+        <div class="claw-line"></div>
+        <div class="claw-head">
+          <div class="arm left"></div>
+          <div class="arm right"></div>
         </div>
       </div>
     </div>
-
-    <footer>
-      이 페이지는 HCI 프로젝트를 위해 제작된 <strong>설명용 인터랙티브 프로토타입</strong>입니다.  
-      실제 기부/결제 기능은 구현되어 있지 않으며, UX 컨셉을 보여주는 데에만 사용됩니다.
-    </footer>
   </div>
 
+  <button id="pullBtn">레버 당겨보기 🎯</button>
+
   <script>
-    const amountButtons = document.querySelectorAll(".chip");
-    const statAmount   = document.getElementById("stat-amount");
-    const statSession  = document.getElementById("stat-session");
-    const statTotal    = document.getElementById("stat-total");
-    const statToday    = document.getElementById("stat-today");
-    const pullBtn      = document.getElementById("pullBtn");
-    const claw         = document.getElementById("claw");
-    const grabbedToy   = document.getElementById("grabbed-toy");
-    const toyRow       = document.getElementById("toy-row");
-
-    const screenMachine = document.getElementById("screen-machine");
-    const screenTree    = document.getElementById("screen-tree");
-    const giftsRow      = document.getElementById("gifts-row");
-    const treeStats     = document.getElementById("tree-stats");
-    const fireplace     = document.getElementById("fireplace");
-    const feast         = document.getElementById("feast");
-    const againBtn      = document.getElementById("againBtn");
-    const stayBtn       = document.getElementById("stayBtn");
-
-    let amount = 1000;
-    let sessionCount = 0;
-    let totalCount = 0;
-
-    // 로컬 누적값 로드
-    try {
-      const stored = Number(localStorage.getItem("beasanta_demo_total") || "0");
-      if (!isNaN(stored)) {
-        totalCount = stored;
-        statTotal.textContent = stored + "개";
-      }
-    } catch (e) {}
-
-    amountButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        amountButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        amount = Number(btn.dataset.amt || "1000");
-        statAmount.textContent = "₩" + amount.toLocaleString();
-      });
-    });
-
-    function updateStatsUI() {
-      statSession.textContent = sessionCount + "개";
-      statTotal.textContent   = totalCount + "개";
-      statToday.textContent   = sessionCount + "명";
-    }
-
-    function buildGifts() {
-      giftsRow.innerHTML = "";
-      const count = Math.min(totalCount, 18);
-      const colors = ["", "color2", "color3", "color4"];
-      for (let i = 0; i < count; i++) {
-        const div = document.createElement("div");
-        const colorClass = colors[i % colors.length];
-        div.className = "gift-box" + (colorClass ? " " + colorClass : "");
-        giftsRow.appendChild(div);
-      }
-
-      // 일정 개수 이상이면 방이 점점 완성되는 느낌
-      if (totalCount >= 3) {
-        fireplace.classList.add("visible");
-      } else {
-        fireplace.classList.remove("visible");
-      }
-      if (totalCount >= 6) {
-        feast.classList.add("visible");
-      } else {
-        feast.classList.remove("visible");
-      }
-
-      treeStats.textContent = `이 브라우저에서 모인 선물(가정): 총 ${totalCount}개`;
-    }
-
-    function goToTreeScreen() {
-      screenMachine.classList.remove("active");
-      screenTree.classList.add("active");
-      buildGifts();
-    }
+    const pullBtn = document.getElementById("pullBtn");
+    const claw = document.getElementById("claw");
 
     pullBtn.addEventListener("click", () => {
       if (pullBtn.disabled) return;
-
       pullBtn.disabled = true;
-
       claw.classList.add("active");
-      grabbedToy.classList.add("moving");
-
-      // 안쪽 장난감 하나 흐리게
-      const toys = toyRow.querySelectorAll(".toy-ball, .toy-box");
-      if (toys[0]) toys[0].style.opacity = "0.4";
-
       setTimeout(() => {
-        sessionCount += 1;
-        totalCount += 1;
-        updateStatsUI();
-
-        try {
-          localStorage.setItem("beasanta_demo_total", String(totalCount));
-        } catch (e) {}
-
         claw.classList.remove("active");
-        grabbedToy.classList.remove("moving");
-        grabbedToy.style.opacity = "0";
-
-        goToTreeScreen();
         pullBtn.disabled = false;
-      }, 1300);
-    });
-
-    againBtn.addEventListener("click", () => {
-      screenTree.classList.remove("active");
-      screenMachine.classList.add("active");
-    });
-
-    stayBtn.addEventListener("click", () => {
-      alert("발표·과제 제출 때 이 화면을 띄워두고,\n트리 밑 선물·벽난로·만찬이 채워지는 과정을 설명해주면 좋아요!");
+      }, 650);
     });
   </script>
 </body>
