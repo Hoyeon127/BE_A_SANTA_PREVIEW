@@ -81,7 +81,7 @@
     .screen { display: none; }
     .screen.active { display: block; }
 
-    /* ------------- SCREEN 1: CLAW ------------- */
+    /* ---------------- SCREEN 1: CLAW ---------------- */
 
     .hero {
       display: grid;
@@ -186,8 +186,6 @@
       border-color: var(--primary);
       box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
     }
-
-    /* 오른쪽 머신 카드 */
 
     .machine-card {
       border-radius: 28px;
@@ -545,43 +543,43 @@
       text-align: right;
     }
 
-    /* ------------- SCREEN 2: SUMMARY DASHBOARD ------------- */
+    /* ---------------- SCREEN 2: BIG GIFT BOX ---------------- */
 
-    .summary-wrap {
+    .box-screen-wrap {
       border-radius: 24px;
       background: #ffffff;
       border: 1px solid var(--border-soft);
       box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
       padding: 22px 20px 24px;
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
       gap: 20px;
       align-items: center;
     }
 
     @media (max-width: 880px) {
-      .summary-wrap {
+      .box-screen-wrap {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    .summary-text h2 {
+    .box-text h2 {
       font-size: 30px;
       margin-bottom: 8px;
     }
 
-    .summary-text h2 span {
+    .box-text h2 span {
       color: var(--primary);
     }
 
-    .summary-text p {
+    .box-text p {
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.7;
       max-width: 420px;
     }
 
-    .summary-tags {
+    .box-tags {
       margin-top: 16px;
       display: flex;
       flex-wrap: wrap;
@@ -589,14 +587,14 @@
       font-size: 12px;
     }
 
-    .summary-tag {
+    .box-tag {
       padding: 4px 10px;
       border-radius: 999px;
       background: var(--primary-soft);
       color: #065f46;
     }
 
-    .summary-actions {
+    .box-actions {
       margin-top: 20px;
       display: flex;
       gap: 10px;
@@ -613,112 +611,124 @@
       color: #111827;
     }
 
-    .summary-card {
+    .box-visual {
       position: relative;
       border-radius: 20px;
       background:
-        radial-gradient(circle at top left, #dcfce7, transparent 55%),
-        radial-gradient(circle at bottom right, #e0f2fe, transparent 60%),
+        radial-gradient(circle at top left, #e0f2fe, transparent 55%),
+        radial-gradient(circle at bottom right, #fee2e2, transparent 60%),
         #f9fafb;
-      padding: 18px 18px 16px;
+      padding: 18px 18px 18px;
       overflow: hidden;
+      text-align: center;
     }
 
-    .summary-label {
-      font-size: 12px;
+    .big-gift {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 12px;
+    }
+
+    .big-gift-fill {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      height: 0;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #f97316, #fb7185);
+      box-shadow: 0 14px 26px rgba(248, 113, 113, 0.6);
+      transition: height 0.8s ease-out;
+      opacity: 0.95;
+    }
+
+    .big-gift-outline {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      border: 2px dashed #d1d5db;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(2px);
+    }
+
+    .big-gift-outline::before,
+    .big-gift-outline::after {
+      content: "";
+      position: absolute;
+      background: rgba(148, 163, 184, 0.7);
+    }
+
+    .big-gift-outline::before {
+      width: 10px;
+      top: 6px;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 999px;
+    }
+
+    .big-gift-outline::after {
+      height: 10px;
+      left: 6px;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 999px;
+    }
+
+    .big-gift-knot {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 18px;
+      border-radius: 999px 999px 8px 8px;
+      border: 2px solid #d1d5db;
+      background: #ffffff;
+      box-shadow: 0 8px 16px rgba(148, 163, 184, 0.6);
+    }
+
+    .big-gift-emoji {
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      opacity: 0.9;
+    }
+
+    .box-count-main {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .box-count-main.bump {
+      animation: bump 0.25s ease-out;
+    }
+
+    .box-subline {
+      font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
 
-    .summary-count {
-      font-size: 40px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
+    .box-subline strong {
+      color: #111827;
     }
 
-    .summary-count.bump {
-      animation: bump 0.25s ease-out;
+    .box-small {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
     }
 
     @keyframes bump {
       0%   { transform: scale(1); }
-      40%  { transform: scale(1.08); }
+      40%  { transform: scale(1.06); }
       100% { transform: scale(1); }
-    }
-
-    .summary-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
-
-    .summary-progress {
-      margin-bottom: 16px;
-    }
-
-    .summary-progress-track {
-      width: 100%;
-      height: 10px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      overflow: hidden;
-    }
-
-    .summary-progress-fill {
-      height: 100%;
-      width: 0;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--primary), #16a34a);
-      box-shadow: 0 6px 12px rgba(22, 163, 74, 0.4);
-      transition: width 0.6s ease-out;
-    }
-
-    .summary-goal {
-      margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .summary-dots {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-      margin-bottom: 10px;
-    }
-
-    .summary-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: rgba(255, 255, 255, 0.6);
-    }
-
-    .summary-dot.filled {
-      border-color: transparent;
-      background: conic-gradient(from 210deg, #f97316, #fb7185, #f97316);
-      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.6);
-    }
-
-    .summary-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .summary-chip {
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      font-size: 11px;
     }
 
     footer {
@@ -756,7 +766,7 @@
           <div class="trust-row">
             <div class="pill">✔ 1회 레버 = 선물 1개 전달된다고 가정</div>
             <div class="pill">✔ 대학생도 부담 없는 소액 기부 시뮬레이션</div>
-            <div class="pill">✔ 누적 수치를 예쁘게 시각화</div>
+            <div class="pill">✔ 누적 선물이 상자 색으로 채워짐</div>
           </div>
 
           <div class="stats">
@@ -837,59 +847,51 @@
           </div>
 
           <p class="machine-note">
-            * 한 번 클릭할 때마다 선물 1개가 전달된다고 가정하고, 다음 화면에서 수치가 어떻게 쌓이는지 보여줍니다.
+            * 한 번 클릭할 때마다 선물 1개가 전달된다고 가정하고, 다음 화면에서 상자에 색이 얼마나 채워지는지 보여줍니다.
           </p>
         </div>
       </section>
     </div>
 
-    <!-- SCREEN 2: SUMMARY -->
-    <div id="screen-summary" class="screen">
-      <div class="summary-wrap">
-        <div class="summary-text">
+    <!-- SCREEN 2: BIG GIFT BOX SUMMARY -->
+    <div id="screen-box" class="screen">
+      <div class="box-screen-wrap">
+        <div class="box-text">
           <h2>
             방금 뽑힌 선물이<br />
-            <span>숫자로 쌓이는 모습</span>이에요
+            <span>이 선물 상자를 채우고 있어요</span>
           </h2>
           <p>
             실제 서비스에서는 이렇게 모인 선물 개수가 실시간으로 집계되고,
             연말에는 보육원·아동시설 등으로 전달되는 과정과 결과를 투명하게 공개하게 됩니다.
-            이 데모에서는 <strong>“게임형 참여 → 수치로 시각화”</strong>되는 흐름을 보여주는 데 초점을 둡니다.
+            이 데모에서는 <strong>“게임형 참여 → 하나의 상자가 채워지는 경험”</strong>에 초점을 둡니다.
           </p>
 
-          <div class="summary-tags">
-            <span class="summary-tag">실제 결제 없음 · UX 컨셉 데모</span>
-            <span class="summary-tag">선물 개수 = 참여 횟수(가정)</span>
+          <div class="box-tags">
+            <span class="box-tag">실제 결제 없음 · UX 컨셉 데모</span>
+            <span class="box-tag">선물 개수 = 참여 횟수(가정)</span>
           </div>
 
-          <div class="summary-actions">
+          <div class="box-actions">
             <button class="primary-btn" id="againBtn">다시 한 번 뽑아볼래요</button>
             <button class="ghost-btn" id="stayBtn">이 화면에서 설명만 할게요</button>
           </div>
         </div>
 
-        <div class="summary-card">
-          <div class="summary-label">이 브라우저에서 모인 선물 (가정)</div>
-          <div class="summary-count" id="summary-count">0개</div>
-          <div class="summary-sub">
-            한 번의 레버가 작은 선물 1개로 쌓이고, 이 숫자가 모여 연말의 큰 변화를 만든다고 가정합니다.
+        <div class="box-visual">
+          <div class="big-gift">
+            <div class="big-gift-fill" id="gift-fill"></div>
+            <div class="big-gift-outline"></div>
+            <div class="big-gift-knot"></div>
+            <div class="big-gift-emoji">🎁</div>
           </div>
 
-          <div class="summary-progress">
-            <div class="summary-progress-track">
-              <div class="summary-progress-fill" id="summary-progress-fill"></div>
-            </div>
-            <div class="summary-goal">
-              <span>0개</span>
-              <span id="summary-goal-label">목표 20개 기준 예시</span>
-            </div>
-          </div>
-
-          <div class="summary-dots" id="summary-dots"></div>
-
-          <div class="summary-meta">
-            <span class="summary-chip">오늘 참여(가정) <span id="summary-today">0명</span></span>
-            <span>현재 브라우저 기준 시뮬레이션 값입니다.</span>
+          <div class="box-count-main" id="box-count-main">지금까지 0개의 선물이 모였습니다.</div>
+          <div class="box-subline" id="supporter-line">당신은 이 브라우저에서 0번째 후원자입니다.</div>
+          <div class="box-subline" id="children-line">지금까지 0명의 아이에게 선물이 전달된다고 가정합니다.</div>
+          <div class="box-small">
+            실제 서비스에서는 여러 사용자의 참여가 합쳐져 채워지는 상자와,  
+            기관별로 나뉘어 전달되는 선물을 실시간으로 시각화할 수 있습니다.
           </div>
         </div>
       </div>
@@ -913,22 +915,20 @@
     const toyRow       = document.getElementById("toy-row");
 
     const screenMachine = document.getElementById("screen-machine");
-    const screenSummary = document.getElementById("screen-summary");
+    const screenBox     = document.getElementById("screen-box");
 
-    const summaryCount        = document.getElementById("summary-count");
-    const summaryProgressFill = document.getElementById("summary-progress-fill");
-    const summaryDots         = document.getElementById("summary-dots");
-    const summaryToday        = document.getElementById("summary-today");
-
-    const againBtn      = document.getElementById("againBtn");
-    const stayBtn       = document.getElementById("stayBtn");
+    const giftFill       = document.getElementById("gift-fill");
+    const boxCountMain   = document.getElementById("box-count-main");
+    const supporterLine  = document.getElementById("supporter-line");
+    const childrenLine   = document.getElementById("children-line");
+    const againBtn       = document.getElementById("againBtn");
+    const stayBtn        = document.getElementById("stayBtn");
 
     let amount = 1000;
     let sessionCount = 0;
     let totalCount = 0;
     const GOAL = 20;
 
-    // 로컬 누적값 로드
     try {
       const stored = Number(localStorage.getItem("beasanta_demo_total") || "0");
       if (!isNaN(stored)) {
@@ -952,33 +952,28 @@
       statToday.textContent   = sessionCount + "명";
     }
 
-    function buildSummary() {
-      summaryCount.textContent = totalCount + "개";
-      summaryCount.classList.remove("bump");
-      // 숫자 살짝 튀어오르는 느낌
-      void summaryCount.offsetWidth;
-      summaryCount.classList.add("bump");
+    function buildBoxSummary() {
+      const supporterOrder = totalCount;
+      const childrenCount  = totalCount;
+
+      boxCountMain.textContent = "지금까지 " + totalCount + "개의 선물이 모였습니다.";
+      boxCountMain.classList.remove("bump");
+      void boxCountMain.offsetWidth;
+      boxCountMain.classList.add("bump");
+
+      supporterLine.textContent =
+        "당신은 이 브라우저에서 " + supporterOrder + "번째 후원자입니다.";
+      childrenLine.textContent =
+        "지금까지 " + childrenCount + "명의 아이에게 선물이 전달된다고 가정합니다.";
 
       const ratio = Math.max(0, Math.min(totalCount / GOAL, 1));
-      summaryProgressFill.style.width = (ratio * 100) + "%";
-
-      summaryDots.innerHTML = "";
-      const maxDots = 12;
-      const filled = Math.min(totalCount, maxDots);
-      for (let i = 0; i < maxDots; i++) {
-        const dot = document.createElement("div");
-        dot.className = "summary-dot";
-        if (i < filled) dot.classList.add("filled");
-        summaryDots.appendChild(dot);
-      }
-
-      summaryToday.textContent = sessionCount + "명";
+      giftFill.style.height = (ratio * 100) + "%";
     }
 
-    function goToSummaryScreen() {
+    function goToBoxScreen() {
       screenMachine.classList.remove("active");
-      screenSummary.classList.add("active");
-      buildSummary();
+      screenBox.classList.add("active");
+      buildBoxSummary();
     }
 
     pullBtn.addEventListener("click", () => {
@@ -1005,18 +1000,18 @@
         grabbedToy.classList.remove("moving");
         grabbedToy.style.opacity = "0";
 
-        goToSummaryScreen();
+        goToBoxScreen();
         pullBtn.disabled = false;
       }, 1300);
     });
 
     againBtn.addEventListener("click", () => {
-      screenSummary.classList.remove("active");
+      screenBox.classList.remove("active");
       screenMachine.classList.add("active");
     });
 
     stayBtn.addEventListener("click", () => {
-      alert("발표·과제 제출 때 이 화면을 띄워두고,\n숫자와 진행 바가 채워지는 구조를 설명해주면 좋아요!");
+      alert("발표·과제 제출 때 이 화면을 띄워두고,\n선물 상자에 색이 채워지는 비율과 문구를 설명해주면 좋아요!");
     });
   </script>
 </body>
