@@ -6,29 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #f4f7fb;
+      --bg: #0b1120;
       --primary: #03c75a;
       --primary-soft: rgba(3, 199, 90, 0.12);
       --accent: #ff7b72;
       --accent-soft: #ffe8e5;
-      --text-main: #111827;
-      --text-muted: #6b7280;
-      --card: #ffffff;
-      --border-soft: #e5e7eb;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --card: #020617;
+      --border-soft: #1f2937;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #e0f2fe 0, transparent 55%),
-        radial-gradient(circle at top right, #dcfce7 0, transparent 55%),
-        var(--bg);
-      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(148, 163, 184, 0.35) 0, transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(96, 165, 250, 0.35) 0, transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(248, 250, 252, 0.08) 0, transparent 55%),
+        radial-gradient(#ffffff 1px, transparent 1px),
+        radial-gradient(#ffffff 1px, transparent 1px),
+        linear-gradient(to bottom, #020617, #0f172a 55%, #020617);
+      background-size:
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        120px 120px,
+        160px 160px,
+        100% 100%;
+      background-position:
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        60px 80px,
+        0 0;
     }
 
     .page {
@@ -66,14 +83,14 @@
       font-weight: 800;
       font-size: 18px;
       letter-spacing: 0.03em;
-      color: #111827;
+      color: #f9fafb;
     }
 
     .header-badge {
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #4b5563;
+      background: rgba(15, 23, 42, 0.85);
       font-size: 12px;
       color: var(--text-muted);
     }
@@ -122,8 +139,8 @@
     .pill {
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #e5e7eb;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #4b5563;
       font-size: 12px;
       color: var(--text-muted);
     }
@@ -138,10 +155,10 @@
       flex: 1;
       min-width: 130px;
       border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
+      border: 1px solid #374151;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.35), transparent 55%), #020617;
       padding: 10px 12px;
-      box-shadow: 0 8px 20px rgba(148, 163, 184, 0.25);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.8);
     }
 
     .stat-label {
@@ -168,32 +185,33 @@
     .chip {
       padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
+      border: 1px solid #4b5563;
+      background: rgba(15, 23, 42, 0.9);
       font-size: 13px;
       cursor: pointer;
       transition: all 0.14s ease-out;
+      color: #e5e7eb;
     }
 
     .chip:hover {
       border-color: var(--primary);
-      background: #f0fdf4;
+      background: rgba(16, 185, 129, 0.15);
     }
 
     .chip.active {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
-      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.55);
     }
 
     .machine-card {
       border-radius: 28px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
+      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.08), transparent 55%), #020617;
+      border: 1px solid #374151;
       box-shadow:
-        0 22px 50px rgba(148, 163, 184, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.8);
+        0 22px 50px rgba(15, 23, 42, 0.9),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
       padding: 18px 18px 20px;
       display: flex;
       flex-direction: column;
@@ -205,6 +223,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 13px;
+      color: #e5e7eb;
     }
 
     .machine-head span:last-child {
@@ -216,7 +235,7 @@
       margin-top: 4px;
       border-radius: 22px;
       padding: 14px;
-      background: linear-gradient(145deg, #fee2e2, #e0f2fe);
+      background: radial-gradient(circle at top left, #fecaca, transparent 55%), radial-gradient(circle at bottom right, #bfdbfe, transparent 55%), #020617;
       border: 1px solid rgba(148, 163, 184, 0.7);
     }
 
@@ -226,11 +245,11 @@
       position: relative;
       height: 310px;
       background:
-        linear-gradient(#ff9eb5, #ff9eb5) top/100% 54px no-repeat,
-        linear-gradient(#ffb7c5, #ffb7c5);
+        linear-gradient(#fb7185, #f97316) top/100% 54px no-repeat,
+        linear-gradient(#111827, #1f2937);
       box-shadow:
-        0 18px 40px rgba(248, 113, 113, 0.4),
-        inset 0 0 0 2px rgba(248, 250, 252, 0.4);
+        0 18px 40px rgba(248, 113, 113, 0.5),
+        inset 0 0 0 2px rgba(248, 250, 252, 0.08);
     }
 
     .machine-top {
@@ -240,11 +259,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      color: #fefce8;
       font-weight: 800;
       font-size: 13px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(15, 23, 42, 0.7);
     }
 
     .machine-top::after {
@@ -336,10 +356,10 @@
       width: 48px;
       height: 26px;
       border-radius: 12px 12px 6px 6px;
-      background: #111827;
+      background: #020617;
       box-shadow:
         inset 0 0 0 2px #4b5563,
-        0 6px 14px rgba(148, 163, 184, 0.8);
+        0 6px 14px rgba(15, 23, 42, 0.9);
       z-index: 1;
     }
 
@@ -512,7 +532,7 @@
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.5);
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.6);
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -522,12 +542,12 @@
 
     .primary-btn:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.6);
+      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.75);
     }
 
     .primary-btn:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 8px 18px rgba(22, 163, 74, 0.5);
+      box-shadow: 0 8px 18px rgba(16, 185, 129, 0.6);
     }
 
     .primary-btn:disabled {
@@ -547,9 +567,9 @@
 
     .box-screen-wrap {
       border-radius: 24px;
-      background: #ffffff;
+      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 55%), #020617;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
       padding: 22px 20px 24px;
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -591,7 +611,7 @@
       padding: 4px 10px;
       border-radius: 999px;
       background: var(--primary-soft);
-      color: #065f46;
+      color: #bbf7d0;
     }
 
     .box-actions {
@@ -603,24 +623,24 @@
 
     .ghost-btn {
       border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
+      border: 1px solid #4b5563;
+      background: #020617;
       padding: 8px 14px;
       font-size: 13px;
       cursor: pointer;
-      color: #111827;
+      color: #e5e7eb;
     }
 
     .box-visual {
       position: relative;
       border-radius: 20px;
       background:
-        radial-gradient(circle at top left, #e0f2fe, transparent 55%),
-        radial-gradient(circle at bottom right, #fee2e2, transparent 60%),
-        #f9fafb;
+        radial-gradient(circle at top, rgba(248, 250, 252, 0.18), transparent 55%),
+        linear-gradient(to bottom, #0b1120, #020617);
       padding: 18px 18px 18px;
       overflow: hidden;
       text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.35);
     }
 
     .big-gift {
@@ -632,46 +652,44 @@
 
     .big-gift-fill {
       position: absolute;
-      left: 6px;
-      right: 6px;
-      bottom: 6px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
       height: 0;
-      border-radius: 20px;
-      background: linear-gradient(180deg, #f97316, #fb7185);
-      box-shadow: 0 14px 26px rgba(248, 113, 113, 0.6);
+      border-radius: 0 0 18px 18px;
+      background: #fb7185;
+      opacity: 0.9;
       transition: height 0.8s ease-out;
-      opacity: 0.95;
     }
 
     .big-gift-outline {
       position: absolute;
       inset: 0;
-      border-radius: 24px;
-      border: 2px dashed #d1d5db;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(2px);
+      border-radius: 20px;
+      border: 2px solid #e5e7eb;
+      background: transparent;
     }
 
     .big-gift-outline::before,
     .big-gift-outline::after {
       content: "";
       position: absolute;
-      background: rgba(148, 163, 184, 0.7);
+      background: #e5e7eb;
     }
 
     .big-gift-outline::before {
-      width: 10px;
-      top: 6px;
-      bottom: 6px;
+      width: 8px;
+      top: 8px;
+      bottom: 8px;
       left: 50%;
       transform: translateX(-50%);
       border-radius: 999px;
     }
 
     .big-gift-outline::after {
-      height: 10px;
-      left: 6px;
-      right: 6px;
+      height: 8px;
+      left: 8px;
+      right: 8px;
       top: 50%;
       transform: translateY(-50%);
       border-radius: 999px;
@@ -679,20 +697,20 @@
 
     .big-gift-knot {
       position: absolute;
-      top: -6px;
+      top: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 30px;
+      width: 32px;
       height: 18px;
       border-radius: 999px 999px 8px 8px;
-      border: 2px solid #d1d5db;
-      background: #ffffff;
-      box-shadow: 0 8px 16px rgba(148, 163, 184, 0.6);
+      border: 2px solid #e5e7eb;
+      background: #020617;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.9);
     }
 
     .big-gift-emoji {
       position: absolute;
-      top: 46%;
+      top: 44%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 40px;
@@ -716,7 +734,7 @@
     }
 
     .box-subline strong {
-      color: #111827;
+      color: #e5e7eb;
     }
 
     .box-small {
@@ -766,7 +784,7 @@
           <div class="trust-row">
             <div class="pill">✔ 1회 레버 = 선물 1개 전달된다고 가정</div>
             <div class="pill">✔ 대학생도 부담 없는 소액 기부 시뮬레이션</div>
-            <div class="pill">✔ 누적 선물이 상자 색으로 채워짐</div>
+            <div class="pill">✔ 누적 선물이 하나의 상자에 색으로 채워짐</div>
           </div>
 
           <div class="stats">
@@ -838,7 +856,7 @@
                     <div class="lever-stick"></div>
                   </div>
                   <button class="primary-btn" id="pullBtn">
-                    레버 당겨보기
+                    한 번 뽑아서 선물 보내기
                     <span>→</span>
                   </button>
                 </div>
@@ -858,12 +876,12 @@
       <div class="box-screen-wrap">
         <div class="box-text">
           <h2>
-            방금 뽑힌 선물이<br />
-            <span>이 선물 상자를 채우고 있어요</span>
+            방금 보낸 선물이<br />
+            <span>이 겨울 상자를 채우고 있어요</span>
           </h2>
           <p>
-            실제 서비스에서는 이렇게 모인 선물 개수가 실시간으로 집계되고,
-            연말에는 보육원·아동시설 등으로 전달되는 과정과 결과를 투명하게 공개하게 됩니다.
+            실제 서비스에서는 여러 사람의 참여가 합쳐져 이 상자가 채워지고,
+            연말에는 보육원·아동시설 등으로 전달되는 과정을 투명하게 공개하게 됩니다.
             이 데모에서는 <strong>“게임형 참여 → 하나의 상자가 채워지는 경험”</strong>에 초점을 둡니다.
           </p>
 
@@ -873,8 +891,7 @@
           </div>
 
           <div class="box-actions">
-            <button class="primary-btn" id="againBtn">다시 한 번 뽑아볼래요</button>
-            <button class="ghost-btn" id="stayBtn">이 화면에서 설명만 할게요</button>
+            <button class="primary-btn" id="againBtn">한 명의 아이에게 선물 하나 더 보내기</button>
           </div>
         </div>
 
@@ -890,8 +907,8 @@
           <div class="box-subline" id="supporter-line">당신은 이 브라우저에서 0번째 후원자입니다.</div>
           <div class="box-subline" id="children-line">지금까지 0명의 아이에게 선물이 전달된다고 가정합니다.</div>
           <div class="box-small">
-            실제 서비스에서는 여러 사용자의 참여가 합쳐져 채워지는 상자와,  
-            기관별로 나뉘어 전달되는 선물을 실시간으로 시각화할 수 있습니다.
+            실제 서비스에서는 전체 이용자의 참여 데이터를 기반으로  
+            목표 <strong>1,000개</strong> 상자 달성률을 실시간으로 시각화할 수 있습니다.
           </div>
         </div>
       </div>
@@ -922,13 +939,13 @@
     const supporterLine  = document.getElementById("supporter-line");
     const childrenLine   = document.getElementById("children-line");
     const againBtn       = document.getElementById("againBtn");
-    const stayBtn        = document.getElementById("stayBtn");
 
     let amount = 1000;
     let sessionCount = 0;
     let totalCount = 0;
-    const GOAL = 20;
+    const GOAL = 1000; // 1000개 모이면 상자 가득
 
+    // 로컬 스토리지에서 누적값 불러오기
     try {
       const stored = Number(localStorage.getItem("beasanta_demo_total") || "0");
       if (!isNaN(stored)) {
@@ -1008,10 +1025,6 @@
     againBtn.addEventListener("click", () => {
       screenBox.classList.remove("active");
       screenMachine.classList.add("active");
-    });
-
-    stayBtn.addEventListener("click", () => {
-      alert("발표·과제 제출 때 이 화면을 띄워두고,\n선물 상자에 색이 채워지는 비율과 문구를 설명해주면 좋아요!");
     });
   </script>
 </body>
