@@ -235,8 +235,6 @@
         inset 0 0 0 2px rgba(248, 250, 252, 0.4);
     }
 
-    /* 상단 헤더 / 그리드 배경 느낌 */
-
     .machine-top {
       position: absolute;
       left: 0; right: 0; top: 0;
@@ -347,8 +345,6 @@
       z-index: 1;
     }
 
-    /* 레일 + 집게 줄/몸 분리 */
-
     .rail {
       position: absolute;
       top: 64px;
@@ -421,8 +417,6 @@
       opacity: 0;
     }
 
-    /* 줄/몸/인형 애니메이션 */
-
     .claw.active .claw-line {
       animation: lineExtend 1.2s ease-in-out forwards;
     }
@@ -454,8 +448,6 @@
       65%  { transform: translate(50px, -58px); }
       100% { transform: translate(95px, -20px); opacity: 1; }
     }
-
-    /* 하단 콘솔 */
 
     .console {
       position: absolute;
@@ -553,41 +545,43 @@
       text-align: right;
     }
 
-    /* ------------- SCREEN 2: TREE / ROOM ------------- */
+    /* ------------- SCREEN 2: SUMMARY DASHBOARD ------------- */
 
-    .tree-screen-wrap {
+    .summary-wrap {
       border-radius: 24px;
       background: #ffffff;
       border: 1px solid var(--border-soft);
       box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
-      padding: 22px 18px 22px;
+      padding: 22px 20px 24px;
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
       gap: 20px;
       align-items: center;
     }
 
     @media (max-width: 880px) {
-      .tree-screen-wrap {
+      .summary-wrap {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    .tree-text-block h2 {
+    .summary-text h2 {
       font-size: 30px;
       margin-bottom: 8px;
     }
 
-    .tree-text-block h2 span { color: var(--primary); }
+    .summary-text h2 span {
+      color: var(--primary);
+    }
 
-    .tree-text-block p {
+    .summary-text p {
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.7;
       max-width: 420px;
     }
 
-    .tag-row {
+    .summary-tags {
       margin-top: 16px;
       display: flex;
       flex-wrap: wrap;
@@ -595,14 +589,14 @@
       font-size: 12px;
     }
 
-    .tag {
+    .summary-tag {
       padding: 4px 10px;
       border-radius: 999px;
       background: var(--primary-soft);
       color: #065f46;
     }
 
-    .tree-actions {
+    .summary-actions {
       margin-top: 20px;
       display: flex;
       gap: 10px;
@@ -619,196 +613,112 @@
       color: #111827;
     }
 
-    .tree-visual {
+    .summary-card {
       position: relative;
       border-radius: 20px;
       background:
-        linear-gradient(#bae6fd, #e0f2fe) top/100% 55% no-repeat,
-        linear-gradient(#fee2e2, #fecaca) bottom/100% 45% no-repeat;
-      padding: 18px 16px 16px;
+        radial-gradient(circle at top left, #dcfce7, transparent 55%),
+        radial-gradient(circle at bottom right, #e0f2fe, transparent 60%),
+        #f9fafb;
+      padding: 18px 18px 16px;
       overflow: hidden;
     }
 
-    /* 창문 */
-    .window {
-      position: absolute;
-      right: 20px;
-      top: 16px;
-      width: 70px;
-      height: 60px;
-      border-radius: 10px;
-      border: 2px solid #e5e7eb;
-      background:
-        radial-gradient(circle at 10% 10%, #fef9c3, transparent 55%),
-        linear-gradient(#0f172a, #1e293b);
-      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+    .summary-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-count {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .summary-count.bump {
+      animation: bump 0.25s ease-out;
+    }
+
+    @keyframes bump {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .summary-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .summary-progress {
+      margin-bottom: 16px;
+    }
+
+    .summary-progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
       overflow: hidden;
     }
 
-    .window::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: rgba(248, 250, 252, 0.8);
+    .summary-progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), #16a34a);
+      box-shadow: 0 6px 12px rgba(22, 163, 74, 0.4);
+      transition: width 0.6s ease-out;
     }
 
-    .window::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: rgba(248, 250, 252, 0.8);
-    }
-
-    .tree-svg-wrap {
+    .summary-goal {
+      margin-top: 6px;
       display: flex;
-      justify-content: flex-start;
-      padding-left: 18px;
-      margin-top: 10px;
-      position: relative;
-      z-index: 1;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
-    .gifts-row {
-      position: absolute;
-      left: 38px;
-      bottom: 34px;
+    .summary-dots {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      max-width: 180px;
-      z-index: 1;
-    }
-
-    .gift-box {
-      width: 30px;
-      height: 24px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #f97316, #fb7185);
-      position: relative;
-      box-shadow: 0 10px 18px rgba(148, 163, 184, 0.8);
-    }
-
-    .gift-box.color2 { background: linear-gradient(135deg, #facc15, #f97316); }
-    .gift-box.color3 { background: linear-gradient(135deg, #38bdf8, #6366f1); }
-    .gift-box.color4 { background: linear-gradient(135deg, #22c55e, #16a34a); }
-
-    .gift-box::before,
-    .gift-box::after {
-      content: "";
-      position: absolute;
-      background: rgba(255, 255, 255, 0.9);
-    }
-    .gift-box::before {
-      width: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0; bottom: 0;
-    }
-    .gift-box::after {
-      height: 5px;
-      top: 44%;
-      left: 0; right: 0;
-    }
-
-    /* 벽난로 + 만찬 */
-
-    .fireplace,
-    .feast {
-      position: absolute;
-      bottom: 16px;
-      right: 18px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    }
-
-    .fireplace.visible,
-    .feast.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fireplace {
-      width: 80px;
-      height: 60px;
-      border-radius: 10px;
-      background: #fecaca;
-      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.9);
-      overflow: hidden;
-    }
-
-    .fireplace::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 8px;
-      height: 30px;
-      border-radius: 8px 8px 0 0;
-      background: #991b1b;
-    }
-
-    .fireplace::after {
-      content: "";
-      position: absolute;
-      left: 22px;
-      right: 22px;
-      bottom: 10px;
-      height: 18px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 0%, #fee2e2, transparent 60%),
-        linear-gradient(#f97316, #b91c1c);
-    }
-
-    .feast {
-      right: 110px;
-      width: 90px;
-      height: 52px;
-      border-radius: 10px;
-      background: #fefce8;
-      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.8);
-      overflow: visible;
-    }
-
-    .feast::before {
-      content: "";
-      position: absolute;
-      left: 6px;
-      right: 6px;
-      bottom: 4px;
-      height: 10px;
-      border-radius: 999px;
-      background: #f97316;
-    }
-
-    .feast::after {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 12px;
-      height: 18px;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 20% 0%, #fee2e2, transparent 60%),
-        radial-gradient(circle at 80% 0%, #bbf7d0, transparent 60%),
-        radial-gradient(circle at 50% 40%, #fde68a, transparent 70%);
-    }
-
-    .tree-stats {
       margin-top: 6px;
-      font-size: 13px;
-      text-align: center;
-      color: #065f46;
-      position: relative;
-      z-index: 1;
+      margin-bottom: 10px;
+    }
+
+    .summary-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .summary-dot.filled {
+      border-color: transparent;
+      background: conic-gradient(from 210deg, #f97316, #fb7185, #f97316);
+      box-shadow: 0 4px 10px rgba(248, 113, 113, 0.6);
+    }
+
+    .summary-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .summary-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      font-size: 11px;
     }
 
     footer {
@@ -846,7 +756,7 @@
           <div class="trust-row">
             <div class="pill">✔ 1회 레버 = 선물 1개 전달된다고 가정</div>
             <div class="pill">✔ 대학생도 부담 없는 소액 기부 시뮬레이션</div>
-            <div class="pill">✔ 누적 선물 수가 트리 밑 풍경으로 시각화</div>
+            <div class="pill">✔ 누적 수치를 예쁘게 시각화</div>
           </div>
 
           <div class="stats">
@@ -927,65 +837,60 @@
           </div>
 
           <p class="machine-note">
-            * 한 번 클릭할 때마다 선물 1개가 전달된다고 가정하고, 다음 화면에서 트리 아래 풍경이 하나씩 채워집니다.
+            * 한 번 클릭할 때마다 선물 1개가 전달된다고 가정하고, 다음 화면에서 수치가 어떻게 쌓이는지 보여줍니다.
           </p>
         </div>
       </section>
     </div>
 
-    <!-- SCREEN 2: TREE & ROOM -->
-    <div id="screen-tree" class="screen">
-      <div class="tree-screen-wrap">
-        <div class="tree-text-block">
+    <!-- SCREEN 2: SUMMARY -->
+    <div id="screen-summary" class="screen">
+      <div class="summary-wrap">
+        <div class="summary-text">
           <h2>
-            방금 보낸 선물이<br />
-            <span>따뜻한 거실 한 켠</span>을 채워요
+            방금 뽑힌 선물이<br />
+            <span>숫자로 쌓이는 모습</span>이에요
           </h2>
           <p>
             실제 서비스에서는 이렇게 모인 선물 개수가 실시간으로 집계되고,
             연말에는 보육원·아동시설 등으로 전달되는 과정과 결과를 투명하게 공개하게 됩니다.
-            여기서는 <strong>게임형 인터랙션</strong>과 <strong>“창밖에서 보는 크리스마스 거실”</strong> 이미지만
-            데모로 보여줍니다.
+            이 데모에서는 <strong>“게임형 참여 → 수치로 시각화”</strong>되는 흐름을 보여주는 데 초점을 둡니다.
           </p>
 
-          <div class="tag-row">
-            <span class="tag">실제 결제 없음 · UX 컨셉 데모</span>
-            <span class="tag">선물 개수 = 참여 횟수(가정)</span>
+          <div class="summary-tags">
+            <span class="summary-tag">실제 결제 없음 · UX 컨셉 데모</span>
+            <span class="summary-tag">선물 개수 = 참여 횟수(가정)</span>
           </div>
 
-          <div class="tree-actions">
+          <div class="summary-actions">
             <button class="primary-btn" id="againBtn">다시 한 번 뽑아볼래요</button>
             <button class="ghost-btn" id="stayBtn">이 화면에서 설명만 할게요</button>
           </div>
         </div>
 
-        <div class="tree-visual">
-          <div class="window"></div>
-
-          <div class="tree-svg-wrap">
-            <svg viewBox="0 0 200 220" width="170" aria-hidden="true">
-              <defs>
-                <linearGradient id="treeLeaf" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#22c55e"/>
-                  <stop offset="1" stop-color="#15803d"/>
-                </linearGradient>
-              </defs>
-              <polygon points="100,15 54,80 146,80" fill="url(#treeLeaf)"/>
-              <polygon points="100,55 40,130 160,130" fill="url(#treeLeaf)"/>
-              <polygon points="100,105 26,190 174,190" fill="url(#treeLeaf)"/>
-              <rect x="88" y="180" width="24" height="26" rx="3" fill="#7c2d12" />
-              <circle cx="100" cy="24" r="7" fill="#facc15" />
-              <circle cx="70" cy="92" r="5" fill="#fb7185" />
-              <circle cx="135" cy="104" r="5" fill="#38bdf8" />
-              <circle cx="84" cy="140" r="5" fill="#f97316" />
-              <circle cx="126" cy="150" r="5" fill="#a855f7" />
-            </svg>
+        <div class="summary-card">
+          <div class="summary-label">이 브라우저에서 모인 선물 (가정)</div>
+          <div class="summary-count" id="summary-count">0개</div>
+          <div class="summary-sub">
+            한 번의 레버가 작은 선물 1개로 쌓이고, 이 숫자가 모여 연말의 큰 변화를 만든다고 가정합니다.
           </div>
 
-          <div class="gifts-row" id="gifts-row"></div>
-          <div class="fireplace" id="fireplace"></div>
-          <div class="feast" id="feast"></div>
-          <div class="tree-stats" id="tree-stats"></div>
+          <div class="summary-progress">
+            <div class="summary-progress-track">
+              <div class="summary-progress-fill" id="summary-progress-fill"></div>
+            </div>
+            <div class="summary-goal">
+              <span>0개</span>
+              <span id="summary-goal-label">목표 20개 기준 예시</span>
+            </div>
+          </div>
+
+          <div class="summary-dots" id="summary-dots"></div>
+
+          <div class="summary-meta">
+            <span class="summary-chip">오늘 참여(가정) <span id="summary-today">0명</span></span>
+            <span>현재 브라우저 기준 시뮬레이션 값입니다.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1008,17 +913,20 @@
     const toyRow       = document.getElementById("toy-row");
 
     const screenMachine = document.getElementById("screen-machine");
-    const screenTree    = document.getElementById("screen-tree");
-    const giftsRow      = document.getElementById("gifts-row");
-    const treeStats     = document.getElementById("tree-stats");
-    const fireplace     = document.getElementById("fireplace");
-    const feast         = document.getElementById("feast");
+    const screenSummary = document.getElementById("screen-summary");
+
+    const summaryCount        = document.getElementById("summary-count");
+    const summaryProgressFill = document.getElementById("summary-progress-fill");
+    const summaryDots         = document.getElementById("summary-dots");
+    const summaryToday        = document.getElementById("summary-today");
+
     const againBtn      = document.getElementById("againBtn");
     const stayBtn       = document.getElementById("stayBtn");
 
     let amount = 1000;
     let sessionCount = 0;
     let totalCount = 0;
+    const GOAL = 20;
 
     // 로컬 누적값 로드
     try {
@@ -1044,36 +952,33 @@
       statToday.textContent   = sessionCount + "명";
     }
 
-    function buildGifts() {
-      giftsRow.innerHTML = "";
-      const count = Math.min(totalCount, 18);
-      const colors = ["", "color2", "color3", "color4"];
-      for (let i = 0; i < count; i++) {
-        const div = document.createElement("div");
-        const colorClass = colors[i % colors.length];
-        div.className = "gift-box" + (colorClass ? " " + colorClass : "");
-        giftsRow.appendChild(div);
+    function buildSummary() {
+      summaryCount.textContent = totalCount + "개";
+      summaryCount.classList.remove("bump");
+      // 숫자 살짝 튀어오르는 느낌
+      void summaryCount.offsetWidth;
+      summaryCount.classList.add("bump");
+
+      const ratio = Math.max(0, Math.min(totalCount / GOAL, 1));
+      summaryProgressFill.style.width = (ratio * 100) + "%";
+
+      summaryDots.innerHTML = "";
+      const maxDots = 12;
+      const filled = Math.min(totalCount, maxDots);
+      for (let i = 0; i < maxDots; i++) {
+        const dot = document.createElement("div");
+        dot.className = "summary-dot";
+        if (i < filled) dot.classList.add("filled");
+        summaryDots.appendChild(dot);
       }
 
-      // 일정 개수 이상이면 방이 점점 완성되는 느낌
-      if (totalCount >= 3) {
-        fireplace.classList.add("visible");
-      } else {
-        fireplace.classList.remove("visible");
-      }
-      if (totalCount >= 6) {
-        feast.classList.add("visible");
-      } else {
-        feast.classList.remove("visible");
-      }
-
-      treeStats.textContent = `이 브라우저에서 모인 선물(가정): 총 ${totalCount}개`;
+      summaryToday.textContent = sessionCount + "명";
     }
 
-    function goToTreeScreen() {
+    function goToSummaryScreen() {
       screenMachine.classList.remove("active");
-      screenTree.classList.add("active");
-      buildGifts();
+      screenSummary.classList.add("active");
+      buildSummary();
     }
 
     pullBtn.addEventListener("click", () => {
@@ -1084,7 +989,6 @@
       claw.classList.add("active");
       grabbedToy.classList.add("moving");
 
-      // 안쪽 장난감 하나 흐리게
       const toys = toyRow.querySelectorAll(".toy-ball, .toy-box");
       if (toys[0]) toys[0].style.opacity = "0.4";
 
@@ -1101,18 +1005,18 @@
         grabbedToy.classList.remove("moving");
         grabbedToy.style.opacity = "0";
 
-        goToTreeScreen();
+        goToSummaryScreen();
         pullBtn.disabled = false;
       }, 1300);
     });
 
     againBtn.addEventListener("click", () => {
-      screenTree.classList.remove("active");
+      screenSummary.classList.remove("active");
       screenMachine.classList.add("active");
     });
 
     stayBtn.addEventListener("click", () => {
-      alert("발표·과제 제출 때 이 화면을 띄워두고,\n트리 밑 선물·벽난로·만찬이 채워지는 과정을 설명해주면 좋아요!");
+      alert("발표·과제 제출 때 이 화면을 띄워두고,\n숫자와 진행 바가 채워지는 구조를 설명해주면 좋아요!");
     });
   </script>
 </body>
