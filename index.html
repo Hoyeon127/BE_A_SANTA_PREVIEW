@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be a Santa! | 겨울 시즌 기부 데모</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #0b1220;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-2: #f97316;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1e293b 0, transparent 55%),
+        radial-gradient(circle at top right, #1d4ed8 0, transparent 50%),
+        radial-gradient(circle at bottom, #022c22 0, transparent 50%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      padding: 32px 16px 60px;
+      position: relative;
+    }
+
+    .bokeh {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .bokeh span {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(26px);
+      opacity: 0.35;
+    }
+
+    .b1 { width: 160px; height: 160px; background: #38bdf8; top: 5%; left: 8%; }
+    .b2 { width: 200px; height: 200px; background: #22c55e; top: 70%; left: 60%; }
+    .b3 { width: 220px; height: 220px; background: #f97316; top: 20%; left: 75%; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb 0, #f97316 35%, #b91c1c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 18px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-muted);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .hero-left-title {
+      font-size: 40px;
+      line-height: 1.15;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hero-left-title span {
+      background: linear-gradient(to right, #38bdf8, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-left-body {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 430px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .trust-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .stat {
+      flex: 1;
+      min-width: 130px;
+      border-radius: 18px;
+      padding: 10px 12px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(30, 64, 175, 0.5);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .amount-row {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-main);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.16s ease-out;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .chip.active {
+      background: linear-gradient(135deg, #0284c7, #22c55e);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 12px 30px rgba(8, 47, 73, 0.8);
+    }
+
+    .hero-right {
+      border-radius: 28px;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.25) 0, transparent 55%),
+                  radial-gradient(circle at bottom, rgba(250, 204, 21, 0.15) 0, transparent 60%),
+                  rgba(15, 23, 42, 0.97);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.9),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 10% 0%, rgba(248, 250, 252, 0.09), transparent 50%),
+                  radial-gradient(circle at 90% 12%, rgba(248, 250, 252, 0.06), transparent 60%);
+      opacity: 0.8;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .hero-right-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 12px;
+    }
+
+    .hero-right-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    . hero-right-head-title {
+      font-weight: 600;
+    }
+
+    .machine-wrap {
+      margin-top: 4px;
+      border-radius: 22px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 14px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .machine {
+      width: 100%;
+      border-radius: 20px;
+      background: linear-gradient(to bottom, #020617, #020617, #020617);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .machine-top {
+      height: 38px;
+      background: linear-gradient(135deg, #f97316, #fbbf24);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .machine-window {
+      position: relative;
+      height: 170px;
+      background: radial-gradient(circle at 10% 0%, rgba(248, 250, 252, 0.12), transparent 70%),
+                  radial-gradient(circle at 90% 100%, rgba(6, 182, 212, 0.28), rgba(15, 23, 42, 0.96));
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .machine-glass {
+      position: absolute;
+      inset: 10px 12px 36px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .machine-glass::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(248, 250, 252, 0.4), transparent 45%, rgba(15, 23, 42, 0.95));
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .claw-rail {
+      position: absolute;
+      top: 14px;
+      left: 26px;
+      right: 26px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(to right, #0f172a, #94a3b8, #0f172a);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+      z-index: 2;
+    }
+
+    .claw {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform-origin: top center;
+      transform: translateX(-50%);
+      transition: transform 0.7s ease-in-out;
+    }
+
+    .claw.down {
+      transform: translateX(-50%) translateY(70px);
+    }
+
+    .claw-line {
+      width: 2px;
+      height: 40px;
+      margin: 0 auto;
+      background: linear-gradient(to bottom, #e5e7eb, #64748b);
+    }
+
+    .claw-head {
+      width: 20px;
+      height: 18px;
+      border-radius: 6px;
+      background: #0f172a;
+      border: 1px solid #94a3b8;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .claw-arm {
+      position: absolute;
+      width: 10px;
+      height: 26px;
+      border-radius: 999px;
+      border: 2px solid #94a3b8;
+      border-top: none;
+      bottom: -22px;
+      left: 50%;
+      transform-origin: top center;
+    }
+
+    .claw-arm.left {
+      transform: translateX(-50%) rotate(-26deg);
+    }
+    .claw-arm.right {
+      transform: translateX(-50%) rotate(26deg);
+    }
+
+    .toys {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 0 14px 8px;
+    }
+
+    .toy {
+      width: 40px;
+      height: 28px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f97316, #fb7185);
+      box-shadow: 0 12px 18px rgba(15, 23, 42, 0.9);
+    }
+
+    .toy.blue { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+    .toy.green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .toy.pink  { background: linear-gradient(135deg, #f97316, #f97373); }
+
+    .machine-controls {
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.4), #020617);
+    }
+
+    .joystick {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .joystick-ball {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fee2e2, #ef4444);
+      box-shadow: 0 10px 20px rgba(127, 29, 29, 0.8);
+      position: relative;
+    }
+
+    .joystick-stick {
+      width: 4px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom, #e5e7eb, #4b5563);
+      margin: 0 auto;
+      position: absolute;
+      bottom: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .button {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb, #9ca3af);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.9);
+    }
+
+    .cta-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .cta-btn {
+      padding: 11px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #0b1120;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow:
+        0 12px 30px rgba(8, 47, 73, 0.9),
+        0 0 0 1px rgba(15, 23, 42, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 40px rgba(8, 47, 73, 1),
+        0 0 0 1px rgba(15, 23, 42, 1);
+    }
+
+    .cta-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        0 8px 18px rgba(15, 23, 42, 1),
+        0 0 0 1px rgba(15, 23, 42, 1);
+    }
+
+    .cta-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* Tree card */
+    .tree-card {
+      margin-top: 10px;
+      border-radius: 22px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 12px 14px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .tree-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .tree-counter {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .tree-progress-bar {
+      margin-top: 6px;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .tree-progress-fill {
+      position: absolute;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #a3e635, #facc15);
+      box-shadow: 0 0 12px rgba(74, 222, 128, 0.7);
+      transition: width 0.5s ease-out;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 11px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    /* simple toast */
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: var(--text-main);
+      font-size: 12px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.95);
+    }
+
+    .toast.show {
+      display: inline-flex;
+      animation: fadeToast 2.2s ease-out;
+    }
+
+    @keyframes fadeToast {
+      0%   { opacity: 0; transform: translateY(10px); }
+      15%  { opacity: 1; transform: translateY(0); }
+      80%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(10px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bokeh">
+    <span class="b1"></span>
+    <span class="b2"></span>
+    <span class="b3"></span>
+  </div>
+
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-mark">🎁</div>
+        <div class="logo-text">Be a Santa!</div>
+      </div>
+      <div class="badge">Demo 화면 · 실제 결제/기부 없음</div>
+    </header>
+
+    <section class="hero">
+      <!-- LEFT -->
+      <div>
+        <h1 class="hero-left-title">
+          클릭 한 번으로<br />
+          <span>아이들의 크리스마스</span>를 채우는
+          기부 경험
+        </h1>
+        <p class="hero-left-body">
+          “게임형 기부라서 낯설다”는 대학생들을 위해 설계한
+          <strong>Be a Santa!</strong>는 인형뽑기 UX 위에 투명한 기부 정보를 더해,
+          가볍게 참여하지만 의미는 분명한 겨울 시즌 캠페인을 상상한 프로토타입입니다.
+        </p>
+
+        <div class="trust-row">
+          <span class="trust-pill">✔ 1회 클릭 = 선물 1개 적립 (설명용 가상 데이터)</span>
+          <span class="trust-pill">✔ 기부 흐름, 누적 현황을 한 눈에</span>
+          <span class="trust-pill">✔ 대학생·청년층 맞춤 ‘부담 없는 금액’ 설정</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">오늘 내가 보낸 선물</div>
+            <div class="stat-value" id="stat-session">0개</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">이 브라우저 누적 선물</div>
+            <div class="stat-value" id="stat-total">0개</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">선택한 1회 기부 금액</div>
+            <div class="stat-value" id="stat-amount">₩1,000</div>
+          </div>
+        </div>
+
+        <div class="amount-row">
+          <button class="chip active" data-amt="1000">₩1,000</button>
+          <button class="chip" data-amt="2000">₩2,000</button>
+          <button class="chip" data-amt="3000">₩3,000</button>
+          <span style="font-size:12px;color:var(--text-muted);">
+            실제 서비스에서는 금액 선택 뒤 결제창으로 이동하게 됩니다.
+          </span>
+        </div>
+      </div>
+
+      <!-- RIGHT: MACHINE + TREE -->
+      <div class="hero-right">
+        <div class="hero-right-inner">
+          <div class="hero-right-head">
+            <div>
+              <div style="font-weight:600;font-size:13px;">겨울 한정 Be a Santa! 데모</div>
+              <div style="font-size:11px;color:var(--text-muted);">
+                인형뽑기 방식으로 기부 참여를 설명하는 인터랙티브 프로토타입
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);">
+              오늘의 참여자 <span id="stat-today" style="color:#e5e7eb;">0명</span>
+            </div>
+          </div>
+
+          <div class="machine-wrap">
+            <div class="machine">
+              <div class="machine-top">
+                <span>GIFT CLAW</span>
+                <span style="font-size:11px;">Santa Mode · ON</span>
+              </div>
+              <div class="machine-window">
+                <div class="claw-rail"></div>
+                <div class="machine-glass">
+                  <div class="claw" id="claw">
+                    <div class="claw-line"></div>
+                    <div class="claw-head">
+                      <div class="claw-arm left"></div>
+                      <div class="claw-arm right"></div>
+                    </div>
+                  </div>
+                  <div class="toys">
+                    <div class="toy"></div>
+                    <div class="toy blue"></div>
+                    <div class="toy green"></div>
+                    <div class="toy pink"></div>
+                    <div class="toy"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="machine-controls">
+                <div class="joystick">
+                  <div style="position:relative;">
+                    <div class="joystick-ball"></div>
+                    <div class="joystick-stick"></div>
+                  </div>
+                  <div style="display:flex;gap:8px;">
+                    <div class="button"></div>
+                    <div class="button"></div>
+                  </div>
+                </div>
+                <div class="cta-wrap">
+                  <button class="cta-btn" id="pullBtn">
+                    레버 당겨 보기
+                    <span>→</span>
+                  </button>
+                  <div class="cta-note">* 데모 화면으로, 실제 결제는 발생하지 않습니다.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tree-card">
+            <div style="width:70px;height:70px;border-radius:20px;background:
+                radial-gradient(circle at 20% 0%,#facc15,transparent 55%),
+                radial-gradient(circle at 20% 80%,#f97316,transparent 55%),
+                #052e16;
+                display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+              <!-- 간단 트리 아이콘 -->
+              <svg viewBox="0 0 120 140" width="58" height="58">
+                <defs>
+                  <linearGradient id="treeLeaf" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#22c55e"/>
+                    <stop offset="1" stop-color="#065f46"/>
+                  </linearGradient>
+                </defs>
+                <polygon points="60,12 26,62 94,62" fill="url(#treeLeaf)" />
+                <polygon points="60,44 20,94 100,94" fill="url(#treeLeaf)" />
+                <polygon points="60,78 16,126 104,126" fill="url(#treeLeaf)" />
+                <rect x="52" y="106" width="16" height="20" rx="3" fill="#7c2d12" />
+                <circle cx="60" cy="20" r="5" fill="#facc15" />
+                <circle cx="40" cy="70" r="4" fill="#ef4444" />
+                <circle cx="82" cy="78" r="4" fill="#0ea5e9" />
+                <circle cx="46" cy="96" r="4" fill="#f97316" />
+                <circle cx="76" cy="104" r="4" fill="#a855f7" />
+              </svg>
+            </div>
+            <div class="tree-text">
+              <div>오늘 이 화면에서 함께 쌓인 선물 수</div>
+              <div class="tree-counter"><span id="treeCount">0</span> 개</div>
+              <div class="tree-progress-bar">
+                <div class="tree-progress-fill" id="treeBar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      이 페이지는 HCI 프로젝트용 <strong>설명·시연 데모</strong>입니다. 실제 기부/결제가 이루어지지 않으며,
+      UX 컨셉과 인터랙션을 보여주기 위한 프로토타입입니다.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">
+    <span>🎄</span>
+    <span id="toastText">선물이 1개 적립되었다고 가정합니다.</span>
+  </div>
+
+  <script>
+    const amountButtons = document.querySelectorAll(".chip");
+    const statAmount = document.getElementById("stat-amount");
+    const statSession = document.getElementById("stat-session");
+    const statTotal = document.getElementById("stat-total");
+    const statToday = document.getElementById("stat-today");
+    const treeCount = document.getElementById("treeCount");
+    const treeBar = document.getElementById("treeBar");
+    const pullBtn = document.getElementById("pullBtn");
+    const claw = document.getElementById("claw");
+    const toast = document.getElementById("toast");
+    const toastText = document.getElementById("toastText");
+
+    let amount = 1000;
+    let sessionCount = 0;
+    let totalCount = 0;
+
+    // localStorage에서 이전 값 로드
+    try {
+      const stored = Number(localStorage.getItem("beasanta_demo_total") || "0");
+      if (!isNaN(stored)) {
+        totalCount = stored;
+        statTotal.textContent = stored + "개";
+        treeCount.textContent = stored;
+        updateTreeBar();
+      }
+    } catch (e) {}
+
+    amountButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        amountButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        amount = Number(btn.dataset.amt || "1000");
+        statAmount.textContent = "₩" + amount.toLocaleString();
+      });
+    });
+
+    function updateTreeBar() {
+      const percent = Math.min(100, (totalCount / 40) * 100);
+      treeBar.style.width = percent + "%";
+    }
+
+    function showToast(msg) {
+      toastText.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    pullBtn.addEventListener("click", () => {
+      if (claw.classList.contains("down")) return;
+
+      claw.classList.add("down");
+      pullBtn.disabled = true;
+
+      setTimeout(() => {
+        claw.classList.remove("down");
+        pullBtn.disabled = false;
+
+        sessionCount += 1;
+        totalCount += 1;
+
+        statSession.textContent = sessionCount + "개";
+        statTotal.textContent = totalCount + "개";
+        treeCount.textContent = totalCount;
+        statToday.textContent = sessionCount + "명";
+        updateTreeBar();
+
+        try {
+          localStorage.setItem("beasanta_demo_total", String(totalCount));
+        } catch (e) {}
+
+        const bonus = Math.random() < 0.15;
+        if (bonus) {
+          showToast("🎁 선물 1개 + 보너스 굿즈에 당첨되었다고 가정해요!");
+        } else {
+          showToast("선물 1개가 적립되었다고 가정합니다.");
+        }
+      }, 650);
+    });
+  </script>
+</body>
+</html>
