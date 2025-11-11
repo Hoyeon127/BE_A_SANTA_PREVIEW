@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #0b1120;
       --primary: #03c75a;
       --primary-soft: rgba(3, 199, 90, 0.12);
       --accent: #ff7b72;
       --accent-soft: #ffe8e5;
       --text-main: #f9fafb;
-      --text-muted: #9ca3af;
+      --text-muted: #d1d5db;
       --card: #020617;
       --border-soft: #1f2937;
     }
@@ -25,33 +24,61 @@
       display: flex;
       justify-content: center;
       color: var(--text-main);
+
+      /* 🔹 여기서 네가 올린 겨울 밤 이미지를 배경으로 사용 */
+      background: #000;
+      background-image: url("winter-bg.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 배경 이미지를 살짝 어둡게 덮어서 글자 가독성 확보 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
       background:
-        radial-gradient(circle at 10% 20%, rgba(148, 163, 184, 0.35) 0, transparent 55%),
-        radial-gradient(circle at 80% 10%, rgba(96, 165, 250, 0.35) 0, transparent 55%),
-        radial-gradient(circle at 50% 120%, rgba(248, 250, 252, 0.08) 0, transparent 55%),
-        radial-gradient(#ffffff 1px, transparent 1px),
-        radial-gradient(#ffffff 1px, transparent 1px),
-        linear-gradient(to bottom, #020617, #0f172a 55%, #020617);
-      background-size:
-        100% 100%,
-        100% 100%,
-        100% 100%,
-        120px 120px,
-        160px 160px,
-        100% 100%;
-      background-position:
-        0 0,
-        0 0,
-        0 0,
-        0 0,
-        60px 80px,
-        0 0;
+        radial-gradient(circle at top left, rgba(15,23,42,0.65), transparent 55%),
+        linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.9));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ❄️ 눈이 내리는 애니메이션 레이어 */
+    .snow-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,0.7) 0 1.6px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,0.6) 0 1.4px, transparent 3px);
+      background-size: 180px 180px, 260px 260px, 340px 340px;
+      animation: snow 18s linear infinite;
+      opacity: 0.9;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes snow {
+      0% {
+        background-position: 0px -200px, 0px -260px, 0px -340px;
+      }
+      100% {
+        background-position: 0px 600px, 0px 780px, 0px 900px;
+      }
     }
 
     .page {
       width: 100%;
       max-width: 1080px;
       padding: 28px 16px 56px;
+      position: relative;
+      z-index: 2; /* 눈/어둡게 레이어 위로 */
     }
 
     header {
@@ -621,16 +648,6 @@
       flex-wrap: wrap;
     }
 
-    .ghost-btn {
-      border-radius: 999px;
-      border: 1px solid #4b5563;
-      background: #020617;
-      padding: 8px 14px;
-      font-size: 13px;
-      cursor: pointer;
-      color: #e5e7eb;
-    }
-
     .box-visual {
       position: relative;
       border-radius: 20px;
@@ -758,6 +775,9 @@
   </style>
 </head>
 <body>
+  <!-- ❄️ 눈 애니메이션 레이어 -->
+  <div class="snow-layer"></div>
+
   <div class="page">
     <header>
       <div class="logo">
